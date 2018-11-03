@@ -1,0 +1,28 @@
+version: "3"
+
+services:
+  proxy:
+    image: nginx:alpine
+    restart: always
+    volumes:
+      - ./nginx/proxy.conf:/etc/nginx/conf.d/default.conf
+    links:
+      - rocket
+    ports:
+      - 8080:8080
+
+  mongo:
+    image: mongo:latest
+    restart: always
+    volumes:
+      - ./mongo/db:/data/db
+      - ./mongo/dump:/dump
+    command: mongod --smallfiles
+
+  rocket:
+    image: rocketchat/rocket.chat:latest
+    restart: always
+    env_file:
+      - env/rocket.env
+    links:
+      - mongo
