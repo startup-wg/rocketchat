@@ -2,7 +2,7 @@
 
 export LC_ALL=en_US
 
-git_update=`git pull origin master --silent`
+git_update=`EDITOR=/bin/false git pull origin master --quiet`
 rocket_update=`docker pull rocketchat/rocket.chat:latest`
 
 if [[ $git_update =~ "Already" || $rocket_update =~ "Image is up to date" ]]; then
